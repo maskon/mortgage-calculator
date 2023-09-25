@@ -24,7 +24,7 @@ let sum;
 
 totalCost.textContent = inputCost.value + ' ₽';
 
-totalMonthPayment.textContent = 1303402.78 + ' ₽';
+totalMonthPayment.textContent = sum + ' ₽';
 
 radioProgram.forEach(function (item) {
     
@@ -36,7 +36,7 @@ radioProgram.forEach(function (item) {
          
         // Формула ежемесечного платежа
         function pecentSum() {
-            sum = +inputCost.value * parseFloat(item.value.replace(',', '.')) / 12 * (1 - 1 + parseFloat(item.value.replace(',', '.') / 12) * (+inputTerm.value) / 12);
+            sum = +inputCost.value * parseFloat(item.value.replace(',', '.')) / 12 * 1 - 1 + parseFloat(item.value.replace(',', '.') / 12) * (+inputTerm.value) / 12;
             totalMonthPayment.textContent = sum.toFixed(2) + ' ₽';   
         };
         totalPercent.textContent = this.value + '%'
@@ -45,8 +45,6 @@ radioProgram.forEach(function (item) {
     });
 });
 
-//const createRate = document.querySelector('input[name="program"]').value;
-//console.log(createRate)
 
 // Слайдер номер 1
 const sliderCost = document.getElementById('slider-cost');
@@ -80,14 +78,14 @@ noUiSlider.create(sliderCost, {
 
 sliderCost.noUiSlider.on('update', function (values, handle) {
     inputCost.value = values.join(',');
-    totalCost.textContent = inputCost.value + ' ₽';
-    totalMonthPayment.textContent = +inputCost.value * 12 * (1 - 1 * (+inputTerm.value) / 12) + ' ₽';
+    totalCost.textContent = (inputCost.value - inputDownpayment.value) + ' ₽';
+    totalMonthPayment.textContent = (+inputCost.value * 12 * (1 - 1 * (+inputTerm.value) / 12) / +inputTerm.value).toFixed(1) + ' ₽';
 });
 
 inputCost.addEventListener('input', function () {
     sliderCost.noUiSlider.set(inputCost.value);
-    totalCost.textContent = inputCost.value + ' ₽';
-    totalMonthPayment.textContent = +inputCost.value * 12 * (1 - 1 * (+inputTerm.value) / 12) + ' ₽';
+    totalCost.textContent = (inputCost.value - inputDownpayment.value) + ' ₽';
+    totalMonthPayment.textContent = (+inputCost.value * 12 * (1 - 1 * (+inputTerm.value) / 12) / +inputTerm.value).toFixed(1) + ' ₽';
 });
 
 // ========================================================================================
@@ -114,10 +112,12 @@ noUiSlider.create(sliderDownpayment, {
 
 sliderDownpayment.noUiSlider.on('update', function (values, handle) {
     inputDownpayment.value = values.join(',');
+    totalCost.textContent = (inputCost.value - inputDownpayment.value).toFixed(1) + ' ₽';
 })
 
 inputDownpayment.addEventListener('input', function () {
     sliderDownpayment.noUiSlider.set(inputDownpayment.value);
+    totalCost.textContent = (inputCost.value - inputDownpayment.value).toFixed(1) + ' ₽';
 });
 
 // ========================================================================================
@@ -143,11 +143,13 @@ noUiSlider.create(sliderTerm, {
 });
 
 sliderTerm.noUiSlider.on('update', function (values, handle) {
-    inputTerm.value = values.join(',')
+    inputTerm.value = values.join(',');
+    totalMonthPayment.textContent = (+inputCost.value * 12 * (+inputTerm.value) / 12 / +inputTerm.value).toFixed(1) + ' ₽';
 })
 
 inputTerm.addEventListener('input', function () {
     sliderTerm.noUiSlider.set(inputTerm.value);
+    totalMonthPayment.textContent = (+inputCost.value * 12 * (+inputTerm.value) / 12 / +inputTerm.value).toFixed(1) + ' ₽';
 });
 
 // ========================================================================================
