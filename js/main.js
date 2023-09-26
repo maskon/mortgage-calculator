@@ -35,7 +35,7 @@ function calculate() {
     
     // Сумма кредита
     const totalResult = +inputCost.value - +inputDownpayment.value;
-    totalCost.textContent = totalResult + ' ₽';
+    totalCost.textContent = totalResult.toLocaleString('ru-RU') + ' ₽';
     
     // Количество месяцев
     const NumberMonths = +inputTerm.value * 12;
@@ -43,7 +43,7 @@ function calculate() {
     // Ежемесячный платеж
     const itemValue = document.querySelector('input[name="program"]:checked').value;
     const monthlyPayment = totalResult * ((parseFloat(itemValue) / 1000) + 1 / NumberMonths);
-    totalMonthPayment.textContent = monthlyPayment.toFixed(2) + ' ₽';
+    totalMonthPayment.textContent = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(monthlyPayment) + ' ₽';
     
 };
 calculate()
@@ -61,13 +61,13 @@ const formatForSlider = {
 };
 
 noUiSlider.create(sliderCost, {
-    start: [12000000],
+    start: 12000000,
     step: 100000,
     connect: 'lower',
     range: {
-        'min': [300000],
+        'min': 300000,
         '50%': [10000000, 1000000],
-        'max': [100000000]
+        'max': 100000000
     },
     format: formatForSlider,
     tooltips: {
@@ -94,12 +94,12 @@ inputCost.addEventListener('input', function () {
 const sliderDownpayment = document.getElementById('slider-downpayment');
 
 noUiSlider.create(sliderDownpayment, {
-    start: [0],
+    start: 0,
     step: 100000,
     connect: 'lower',
     range: {
-        'min': [0],
-        'max': [10000000]
+        'min': 0,
+        'max': 10000000
     },
     format: formatForSlider,
     tooltips: {
@@ -127,12 +127,12 @@ inputDownpayment.addEventListener('input', function () {
 const sliderTerm = document.getElementById('slider-term');
 
 noUiSlider.create(sliderTerm, {
-    start: [1],
+    start: 1,
     step: 1,
     connect: 'lower',
     range: {
-        'min': [1],
-        'max': [30]
+        'min': 1,
+        'max': 30
     },
     format: formatForSlider,
     tooltips: {
