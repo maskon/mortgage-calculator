@@ -15,12 +15,12 @@ const inputTerm = document.querySelector('#input-term');
 const totalMonthPayment = document.querySelector('#total-month-payment');
 const totalCost = document.querySelector('#total-cost');
 
-
-totalPercent.textContent = '13,7 %';
+const itemValueStart = document.querySelector('input[name="program"]:checked').value;
 
 calculate()
 
 radioProgram.forEach(function (radio) {
+    totalPercent.textContent = itemValueStart + ' %';
     radio.addEventListener('change', function() {
         totalPercent.textContent = this.value + ' %'
     })  
@@ -43,7 +43,16 @@ function calculate() {
     // Ежемесячный платеж
     const itemValue = document.querySelector('input[name="program"]:checked').value;
     const monthlyPayment = totalResult * ((parseFloat(itemValue) / 1000) + 1 / NumberMonths);
-    totalMonthPayment.textContent = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(monthlyPayment) + ' ₽';
+    if (monthlyPayment < 0) {
+        totalMonthPayment.textContent = 0 + ' ₽';
+        totalCost.textContent = 0 + ' ₽';
+        document.querySelector('#param__details--downpayment').classList.add('param__details--error'); 
+    }
+    
+    else {
+        totalMonthPayment.textContent = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(monthlyPayment) + ' ₽';
+        document.querySelector('#param__details--downpayment').classList.remove('param__details--error');
+    }
     
 };
 calculate()
