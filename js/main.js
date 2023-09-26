@@ -70,7 +70,7 @@ const formatForSlider = {
 };
 
 noUiSlider.create(sliderCost, {
-    start: 12000000,
+    start: 3000000,
     step: 100000,
     connect: 'lower',
     range: {
@@ -108,7 +108,7 @@ noUiSlider.create(sliderDownpayment, {
     connect: 'lower',
     range: {
         'min': 0,
-        'max': 10000000
+        'max': 10700000
     },
     format: formatForSlider,
     tooltips: {
@@ -136,7 +136,7 @@ inputDownpayment.addEventListener('input', function () {
 const sliderTerm = document.getElementById('slider-term');
 
 noUiSlider.create(sliderTerm, {
-    start: 1,
+    start: 10,
     step: 1,
     connect: 'lower',
     range: {
